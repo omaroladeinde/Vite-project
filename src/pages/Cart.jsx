@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { CartContext } from "src/context/CartContext";
 import { Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
-import "./cart.css";
+import "./Cart.css";
 import PaystackButton from "../components/PaystackButton";
 import Checkout from "src/pages/Checkout.jsx";
 

@@ -12,7 +12,6 @@ const categories = [
 export default function CollectionPage() {
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
 
   return (
     <div className="collection-page">
