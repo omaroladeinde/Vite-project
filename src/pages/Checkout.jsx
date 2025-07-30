@@ -137,6 +137,7 @@ export default function Checkout() {
             name={formData.name}
             amount={totalAmount}
             onSuccess={handlePaymentSuccess}
+            className={`paystack-button ${!isFormComplete() ? "disabled" : ""}`}
             disabled={!isFormComplete()}
           />
         </form>
