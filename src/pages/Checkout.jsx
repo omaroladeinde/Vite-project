@@ -1,21 +1,21 @@
 import React, { useState, useContext } from "react";
 import { CartContext } from "src/context/CartContext";
-import PaystackButton from "src/components/PaystackButton"; // Custom version
+import PaystackButton from "../components/PaystackButton";
 import { Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import "./checkout.css";
 import { products } from "src/data/products";
 
-const shippingRates = {
-  "International": 15000,
-  "Local (within Lagos)": 3000,
-  "Local (outside Lagos)": 5000,
-};
-
 const categories = [
   "NEW ARRIVAL", "MEMBERSHIP ONLY", "COLLABORATION", "OUTWEAR",
   "TOP", "BOTTOM", "ACC", "ARCHIVE SALE",
 ];
+
+const shippingRates = {
+  International: 15000,
+  "Local (within Lagos)": 3000,
+  "Local (outside Lagos)": 5000,
+};
 
 export default function Checkout() {
   const { cartItems, clearCart } = useContext(CartContext);
@@ -26,6 +26,8 @@ export default function Checkout() {
     address: "",
     phone: "",
     shippingLocation: "",
+    country: "",
+    state: "",
   });
 
   const baseTotal = cartItems.reduce((acc, item) => {
@@ -35,36 +37,84 @@ export default function Checkout() {
   const shippingCost = shippingRates[formData.shippingLocation] || 0;
   const totalAmount = (baseTotal + shippingCost) * 100;
 
-  const isFormComplete = () =>
-    formData.email &&
-    formData.name &&
-    formData.address &&
-    formData.phone &&
-    formData.shippingLocation;
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePaymentSuccess = () => {
+    // Deduct stock
     cartItems.forEach((cartItem) => {
       const productIndex = products.findIndex((p) => p.id === cartItem.id);
       if (productIndex !== -1) {
         const product = products[productIndex];
         const size = cartItem.selectedSize;
+
         if (product.stock && product.stock[size]) {
           product.stock[size] -= cartItem.quantity;
-          if (product.stock[size] <= 0) product.stock[size] = 0;
+          if (product.stock[size] <= 0) {
+            product.stock[size] = 0;
+          }
         }
 
         const isSoldOut = Object.values(product.stock).every((qty) => qty <= 0);
-        if (isSoldOut) product.status = "Sold Out";
+        if (isSoldOut) {
+          product.status = "Sold Out";
+        }
       }
     });
 
-    alert("Payment successful!");
+    alert("Payment Successful!");
     clearCart();
+  };
+
+  const isFormComplete = () => {
+    if (formData.shippingLocation === "International") {
+      return (
+        formData.name &&
+        formData.email &&
+        formData.address &&
+        formData.phone &&
+        formData.shippingLocation &&
+        formData.country &&
+        formData.state
+      );
+    }
+    if (formData.shippingLocation === "Local (outside Lagos)") {
+      return (
+        formData.name &&
+        formData.email &&
+        formData.address &&
+        formData.phone &&
+        formData.shippingLocation &&
+        formData.state
+      );
+    }
+    return (
+      formData.name &&
+      formData.email &&
+      formData.address &&
+      formData.phone &&
+      formData.shippingLocation
+    );
+  };
+
+  const componentProps = {
+    email: formData.email,
+    amount: totalAmount,
+    metadata: {
+      ...formData,
+      shippingFee: shippingCost,
+      cart: cartItems.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        size: item.selectedSize || "N/A",
+      })),
+    },
+    publicKey: "pk_test_27ed0741cbea90e217695e515ffbbe5e4bbef71c",
+    text: "Pay Now",
+    onSuccess: handlePaymentSuccess,
+    onClose: () => alert("Payment closed"),
   };
 
   return (
@@ -107,12 +157,13 @@ export default function Checkout() {
       {/* Checkout Form */}
       <div className="checkout-form-wrapper">
         <h2 className="checkout-title">Checkout</h2>
-        <form className="checkout-form"
-        onSubmit={(e) => e.preventDefault()}>
+        <form className="checkout-form" onSubmit={(e) => e.preventDefault()}>
           <input type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} required />
           <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required />
           <input type="text" name="address" placeholder="Shipping Address" value={formData.address} onChange={handleChange} required />
           <input type="tel" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} required />
+
+          {/* Shipping location */}
           <select
             name="shippingLocation"
             value={formData.shippingLocation}
@@ -126,6 +177,39 @@ export default function Checkout() {
             <option value="Local (outside Lagos)">Local (outside Lagos)</option>
           </select>
 
+          {/* Conditional Inputs */}
+          {formData.shippingLocation === "International" && (
+            <>
+              <input
+                type="text"
+                name="country"
+                placeholder="Country"
+                value={formData.country}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="state"
+                placeholder="State / Region"
+                value={formData.state}
+                onChange={handleChange}
+                required
+              />
+            </>
+          )}
+
+          {formData.shippingLocation === "Local (outside Lagos)" && (
+            <input
+              type="text"
+              name="state"
+              placeholder="State"
+              value={formData.state}
+              onChange={handleChange}
+              required
+            />
+          )}
+
           <div className="checkout-total">
             <p>Products: ₦{baseTotal.toLocaleString()}</p>
             <p>Shipping: ₦{shippingCost.toLocaleString()}</p>
@@ -133,10 +217,7 @@ export default function Checkout() {
           </div>
 
           <PaystackButton
-            email={formData.email}
-            name={formData.name}
-            amount={totalAmount}
-            onSuccess={handlePaymentSuccess}
+            {...componentProps}
             className={`paystack-button ${!isFormComplete() ? "disabled" : ""}`}
             disabled={!isFormComplete()}
           />
