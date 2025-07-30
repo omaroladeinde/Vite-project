@@ -107,7 +107,8 @@ export default function Checkout() {
       {/* Checkout Form */}
       <div className="checkout-form-wrapper">
         <h2 className="checkout-title">Checkout</h2>
-        <form className="checkout-form">
+        <form className="checkout-form"
+        onSubmit={(e) => e.preventDefault()}>
           <input type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} required />
           <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required />
           <input type="text" name="address" placeholder="Shipping Address" value={formData.address} onChange={handleChange} required />
