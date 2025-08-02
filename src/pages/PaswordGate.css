@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
 
-.password-gate {
+.pw-gate-container {
   height: 100vh;
   width: 100%;
   background: url('/images/hero-bg.jpg') center center / cover no-repeat;
@@ -9,50 +10,51 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.form-box {
-  background-color: none;
+.pw-form-box {
+  background-color: rgba(0, 0, 0, 0.7);
   padding: 40px;
   border-radius: 0px;
   text-align: center;
   width: 90%;
   max-width: 400px;
   color: white;
-  border: none;
+  border: 1px solid #000000;
   letter-spacing: 1px;
+  border-radius: 1.5%;
 }
 
-.logo {
-  font-size: 70px;
+.pw-logo {
+  font-size: 60px;
   color: #700202;
   margin-bottom: 30px;
   letter-spacing: 3px;
-  font-style: normal;
+  font-weight: 800;
 }
 
-form {
+.pw-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-input {
+.pw-input {
   padding: 14px;
-  border: 1px solid #ffffff;
+  border: 1px solid #700202;
   background: transparent;
-  color: rgb(255, 255, 255);
+  color: white;
   font-size: 12px;
   text-align: center;
   outline: none;
   letter-spacing: 1px;
 }
 
-input::placeholder {
-  color: #ffffff;
+.pw-input::placeholder {
+  color: #aaa;
   font-size: 11px;
   text-transform: uppercase;
 }
 
-button {
+.pw-button {
   padding: 14px;
   background-color: #000000;
   color: white;
@@ -64,19 +66,37 @@ button {
   transition: 0.3s ease;
 }
 
-button:hover {
-  background-color: #4d0404;
+.pw-button:hover {
+  background-color: #900202;
 }
 
-.error {
+.pw-error {
   color: #ff4d4d;
   font-size: 10px;
   margin-top: -10px;
 }
 
-.footer {
+.pw-footer {
   font-size: 9px;
   margin-top: 30px;
-  color: #ffffff;
+  color: #cccccc;
   letter-spacing: 1px;
+}
+
+.pw-link {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.pw-link a {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 300;
+  opacity: 0.8;
+  transition: 0.2s ease;
+}
+
+.pw-link a:hover {
+  opacity: 1;
 }

@@ -20,7 +20,7 @@ export default function CollectionPage() {
       <div className={`mobile-sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
           <span>Sign-in required.</span>
-          <Link to="/login" className="signin-link">Sign in</Link>
+          <Link to="/" className="signin-link">Sign in</Link>
           <button className="close-btn" onClick={() => setSidebarOpen(false)}><FiX /></button>
         </div>
         <div className="sidebar-links">
@@ -49,7 +49,7 @@ export default function CollectionPage() {
         <button className="hamburger" onClick={() => setSidebarOpen(true)}>
           <FiMenu />
         </button>
-        <Link to="/" className="product-logo">MEZURASHI STUDIOS</Link>
+        <Link to="/hero" className="product-logo">MEZURASHI STUDIOS</Link>
         <nav className="product-nav">
           <Link to="/shop" className="product-nav-link">SHOP</Link>
           <Link to="/stockist" className="product-nav-link">STOCKIST</Link>

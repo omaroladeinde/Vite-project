@@ -22,7 +22,9 @@ const PasswordGate = () => {
       await fetch("https://script.google.com/macros/s/AKfycbw-j7--0OY7fxOIwjnqw6EXAIBHjZclp1Wj7ZCWaCou0xzb_gcKhAhDqnqPJ39yqIOz/exec", {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ email }),
       });
     } catch (err) {
@@ -33,12 +35,13 @@ const PasswordGate = () => {
   };
 
   return (
-    <div className="password-gate">
-      <div className="form-box">
-        <h1 className="logo">MFG</h1>
-        <form onSubmit={handleSubmit}>
+    <div className="pw-gate-container">
+      <div className="pw-form-box">
+        <h1 className="pw-logo">MFG</h1>
+        <form className="pw-form" onSubmit={handleSubmit}>
           <input
             type="email"
+            className="pw-input"
             placeholder="EMAIL"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -46,15 +49,23 @@ const PasswordGate = () => {
           />
           <input
             type="password"
+            className="pw-input"
             placeholder="PASSWORD"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          {error && <p className="error">{error}</p>}
-          <button type="submit">ENTER</button>
+          {error && <p className="pw-error">{error}</p>}
+          <button type="submit" className="pw-button">ENTER</button>
         </form>
-        <p className="footer">MEZURASHI STUDIOS © 2025 | ALL RIGHTS RESERVED</p>
+        {/* Inside your form, just above the footer */}
+<p className="pw-link">
+  <a href="/notify">GET NOTIFIED WHEN ITS OPEN</a>
+</p>
+
+        <footer className="pw-footer">
+          MEZURASHI STUDIOS © 2025 | ALL RIGHTS RESERVED
+        </footer>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { collections } from "src/data/collections"; // 🆕 import collections
 import { Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 
+
 const categories = [
   "NEW ARRIVAL",
   "MEMBERSHIP ONLY",
@@ -33,7 +34,7 @@ export default function ShopPage() {
       <div className={`mobile-sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
           <span>Sign-in required.</span>
-          <Link to="/login" className="signin-link">Sign in</Link>
+          <Link to="/" className="signin-link">Sign in</Link>
           <button className="close-btn" onClick={() => setSidebarOpen(false)}><FiX /></button>
         </div>
         <div className="sidebar-links">
@@ -63,7 +64,7 @@ export default function ShopPage() {
           <FiMenu />
         </button>
 
-        <Link to="/" className="product-logo">MEZURASHI STUDIOS</Link>
+        <Link to="/hero" className="product-logo">MEZURASHI STUDIOS</Link>
 
         <nav className="product-nav">
           <Link to="/shop" className="product-nav-link">SHOP</Link>

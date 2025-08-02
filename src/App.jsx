@@ -10,6 +10,7 @@ import CollectionPage from './pages/CollectionPage';
 import Checkout from "./pages/Checkout";
 import PasswordGate from "./pages/PasswordGate";
 import HeroSplash from './HeroSplash';
+import Notify from './pages/Notify'; // adjust path if needed
 
 // Inventory Setup 
 import { initializeInventory } from "src/utils/inventory";
@@ -18,6 +19,7 @@ function App() {
   useEffect(() => {
     initializeInventory();
   }, []);
+
 
   return (
     <Router>
@@ -28,7 +30,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/collection" element={<CollectionPage />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/hero" element={<HeroSplash />} />
+        <Route path="/notify" element={<Notify />} />
       </Routes>
     </Router>
   );
