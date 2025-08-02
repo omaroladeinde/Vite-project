@@ -1,7 +1,7 @@
-// src/components/PaystackButton.jsx
+// src/components/PaystackButton.jsx 
 import React from "react";
 
-const PaystackButton = ({ email, amount, name, onSuccess, disabled }) => {
+const PaystackButton = ({ email, amount, name, onSuccess, disabled, metadata }) => {
   const handlePayment = () => {
     if (!window.PaystackPop) {
       alert("Paystack SDK not loaded. Check your internet or script tag.");
@@ -19,7 +19,48 @@ const PaystackButton = ({ email, amount, name, onSuccess, disabled }) => {
       amount,
       currency: "NGN",
       metadata: {
-        custom_fields: [{ display_name: name }],
+        custom_fields: [
+          {
+            display_name: "Full Name",
+            variable_name: "full_name",
+            value: metadata?.name || name,
+          },
+          {
+            display_name: "Address",
+            variable_name: "address",
+            value: metadata?.address || "",
+          },
+          {
+            display_name: "Phone",
+            variable_name: "phone",
+            value: metadata?.phone || "",
+          },
+          {
+            display_name: "Shipping Location",
+            variable_name: "shipping_location",
+            value: metadata?.shippingLocation || "",
+          },
+          {
+            display_name: "Country",
+            variable_name: "country",
+            value: metadata?.country || "",
+          },
+          {
+            display_name: "State",
+            variable_name: "state",
+            value: metadata?.state || "",
+          },
+          {
+            display_name: "Cart Items",
+            variable_name: "cart_items",
+            value: JSON.stringify(metadata?.cart || []),
+          },
+          {
+            display_name: "Shipping Fee",
+            variable_name: "shipping_fee",
+            value: metadata?.shippingFee || 0,
+          },
+        ],
       },
       callback: (response) => {
         console.log("Payment successful:", response);

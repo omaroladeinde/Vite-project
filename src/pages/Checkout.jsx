@@ -1,7 +1,8 @@
+// src/pages/Checkout.jsx
 import React, { useState, useContext } from "react";
 import { CartContext } from "src/context/CartContext";
 import PaystackButton from "../components/PaystackButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import "./checkout.css";
 import { products } from "src/data/products";
@@ -18,6 +19,7 @@ const shippingRates = {
 };
 
 export default function Checkout() {
+  const navigate = useNavigate();
   const { cartItems, clearCart } = useContext(CartContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -43,7 +45,6 @@ export default function Checkout() {
   };
 
   const handlePaymentSuccess = () => {
-    // Deduct stock
     cartItems.forEach((cartItem) => {
       const productIndex = products.findIndex((p) => p.id === cartItem.id);
       if (productIndex !== -1) {
@@ -66,6 +67,7 @@ export default function Checkout() {
 
     alert("Payment Successful!");
     clearCart();
+    navigate("/shop");
   };
 
   const isFormComplete = () => {
@@ -97,24 +99,6 @@ export default function Checkout() {
       formData.phone &&
       formData.shippingLocation
     );
-  };
-
-  const componentProps = {
-    email: formData.email,
-    amount: totalAmount,
-    metadata: {
-      ...formData,
-      shippingFee: shippingCost,
-      cart: cartItems.map((item) => ({
-        name: item.name,
-        quantity: item.quantity,
-        size: item.selectedSize || "N/A",
-      })),
-    },
-    publicKey: "pk_test_27ed0741cbea90e217695e515ffbbe5e4bbef71c",
-    text: "Pay Now",
-    onSuccess: handlePaymentSuccess,
-    onClose: () => alert("Payment closed"),
   };
 
   return (
@@ -163,7 +147,6 @@ export default function Checkout() {
           <input type="text" name="address" placeholder="Shipping Address" value={formData.address} onChange={handleChange} required />
           <input type="tel" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} required />
 
-          {/* Shipping location */}
           <select
             name="shippingLocation"
             value={formData.shippingLocation}
@@ -177,7 +160,7 @@ export default function Checkout() {
             <option value="Local (outside Lagos)">Local (outside Lagos)</option>
           </select>
 
-          {/* Conditional Inputs */}
+          {/* Country & State if International */}
           {formData.shippingLocation === "International" && (
             <>
               <input
@@ -199,6 +182,7 @@ export default function Checkout() {
             </>
           )}
 
+          {/* State if outside Lagos */}
           {formData.shippingLocation === "Local (outside Lagos)" && (
             <input
               type="text"
@@ -217,7 +201,10 @@ export default function Checkout() {
           </div>
 
           <PaystackButton
-            {...componentProps}
+            email={formData.email}
+            name={formData.name}
+            amount={totalAmount}
+            onSuccess={handlePaymentSuccess}
             className={`paystack-button ${!isFormComplete() ? "disabled" : ""}`}
             disabled={!isFormComplete()}
           />
