@@ -31,6 +31,7 @@ function App() {
         <Route path="/collection" element={<CollectionPage />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/notify" element={<Notify />} />
+        <Route path="/hero" element={<HeroSplash />} />
       </Routes>
     </Router>
   );
