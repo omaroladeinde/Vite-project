@@ -19,9 +19,8 @@ const PasswordGate = () => {
     }
 
     try {
-      await fetch("https://script.google.com/macros/s/AKfycbw-j7--0OY7fxOIwjnqw6EXAIBHjZclp1Wj7ZCWaCou0xzb_gcKhAhDqnqPJ39yqIOz/exec", {
+      await fetch("https://script.google.com/macros/s/AKfycbw3UPL6GPmzpVvNL9nwb0umK1ctUusB9TyU9oJ0k8rCtxbvMygX0FjnAtHPHlBFmyAexQ/exec", {
         method: "POST",
-        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
         },
