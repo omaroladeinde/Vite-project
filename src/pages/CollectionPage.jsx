@@ -5,8 +5,8 @@ import { collections } from "src/data/collections";
 import "./CollectionPage.css";
 
 const categories = [
-  "NEW ARRIVAL", "MEMBERSHIP ONLY", "COLLABORATION", "OUTWEAR",
-  "TOP", "BOTTOM", "ACC", "ARCHIVE SALE",
+  "NEW ARRIVAL", "TOP", "BOTTOM", "ACC",
+  "OUTWEAR", "COLLABORATION", "MEMBERSHIP ONLY", "ARCHIVE SALE",
 ];
 
 export default function CollectionPage() {

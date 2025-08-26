@@ -1,0 +1,119 @@
+.stockist-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #fff;
+  color: #000;
+}
+
+/* ===== Navbar ===== */
+.stockist-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: none;
+}
+
+.hamburger {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.stockist-logo {
+   font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: rgb(86, 3, 3);
+  font-weight: bold;
+}
+
+.stockist-nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.stockist-nav-link {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s ease;
+}
+
+.stockist-nav-link:hover {
+  opacity: 0.7;
+}
+
+
+/* ===== Category Filter ===== */
+.category-filter {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 0;
+  border-bottom: 1px solid #000;
+  flex-wrap: wrap;
+}
+
+.category-btn {
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  color: #000;
+  transition: opacity 0.3s ease;
+}
+
+.category-btn.active {
+  font-weight: bold;
+}
+
+.category-btn:hover {
+  opacity: 0.6;
+}
+
+/* ===== Stockist Content ===== */
+.stockist-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 50px 20px;
+}
+
+.stockist-text {
+  font-size: 1.5rem;
+  font-weight: 200;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+ .stockist-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+  }
+
+.stockist-nav-link {
+    display: none;
+}
+
+.bag-link {
+    font-size: 13px;
+    
+  }
+
+.stockist-text {
+  font-size: 1rem;
+  font-weight: 200;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+}

@@ -1,13 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import { CartContext } from "src/context/CartContext";
-import { products } from "src/data/products";
+import { supabase } from "src/supabaseClient"; // Supabase client
 import "./ProductDetail.css";
 
 const categories = [
-  "NEW ARRIVAL", "MEMBERSHIP ONLY", "COLLABORATION", "OUTWEAR",
-  "TOP", "BOTTOM", "ACC", "ARCHIVE SALE",
+  "NEW ARRIVAL", "TOP", "BOTTOM", "ACC",
+  "OUTWEAR", "COLLABORATION", "MEMBERSHIP ONLY", "ARCHIVE SALE",
 ];
 
 const sizes = ["S", "M", "L", "XL"];
@@ -20,23 +20,54 @@ export default function ProductDetail() {
   const { addToCart } = useContext(CartContext);
   const [showSizeError, setShowSizeError] = useState(false);
 
-  const product = products.find((p) => p.id === Number(id));
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch product from Supabase
+  useEffect(() => {
+    const fetchProduct = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        console.error("Error fetching product:", error);
+      } else {
+        setProduct(data);
+      }
+      setLoading(false);
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (loading) return <div className="text-white p-10">Loading...</div>;
   if (!product) return <div className="text-white p-10">Product not found</div>;
 
-  // Determine if all sizes are sold out
-  const isFullySoldOut = sizes.every((size) => (product.stock?.[size] || 0) <= 0);
+  // Detect if product uses sizes (stock is stored as JSON in Supabase)
+  const hasSizes = product.stock && Object.keys(product.stock).length > 0;
+
+  // Determine if fully sold out
+  const isFullySoldOut = hasSizes
+    ? sizes.every((size) => (product.stock?.[size] || 0) <= 0)
+    : product.status?.toLowerCase() === "soldout";
 
   const handleAddToCart = () => {
-    if (!selectedSize) {
-      setShowSizeError(true);
-      setTimeout(() => setShowSizeError(false), 2000);
-      return;
-    }
+    if (hasSizes) {
+      if (!selectedSize) {
+        setShowSizeError(true);
+        setTimeout(() => setShowSizeError(false), 2000);
+        return;
+      }
 
-    const availableQty = product.stock?.[selectedSize] || 0;
-    if (availableQty <= 0) {
-      alert("This size is sold out.");
-      return;
+      const availableQty = product.stock?.[selectedSize] || 0;
+      if (availableQty <= 0) {
+        alert("This size is sold out.");
+        return;
+      }
     }
 
     const productToAdd = {
@@ -44,7 +75,7 @@ export default function ProductDetail() {
       name: product.name,
       image: product.image,
       price: Number(product.price),
-      selectedSize,
+      selectedSize: hasSizes ? selectedSize : null,
       quantity: 1,
     };
 
@@ -86,7 +117,7 @@ export default function ProductDetail() {
       {/* Navbar */}
       <header className="product-detail-header">
         <button className="hamburger" onClick={() => setSidebarOpen(true)}><FiMenu /></button>
-        <Link to="/hero" className="product-logo">MEZURASHI STUDIOS</Link>
+        <Link to="/" className="product-logo">MEZURASHI STUDIOS</Link>
         <nav className="product-nav">
           <Link to="/shop" className="product-nav-link">SHOP</Link>
           <Link to="/stockist" className="product-nav-link">STOCKIST</Link>
@@ -104,11 +135,11 @@ export default function ProductDetail() {
         <div className="product-info-section">
           <h1 className="product-title">{product.name}</h1>
           {product.status && <span className="product-status">{product.status}</span>}
-          <div className="product-price">{product.price}</div>
+          <div className="product-price">₦{product.price}</div>
           <div className="product-description">{product.description}</div>
 
           <ul className="product-details">
-            {product.details.map((line, idx) => <li key={idx}>- {line}</li>)}
+            {product.details?.map((line, idx) => <li key={idx}>- {line}</li>)}
           </ul>
 
           <div className="product-meta-label">Fabric</div>
@@ -120,24 +151,28 @@ export default function ProductDetail() {
           <div className="product-meta-label">Size Guide (Measurement : CM)</div>
           <div className="product-meta-value size-guide">{product.sizeGuide}</div>
 
-          {/* Size Picker */}
-          <div className="product-meta-label">Select Size</div>
-          <div className="size-picker">
-            {sizes.map((size) => {
-              const outOfStock = (product.stock?.[size] || 0) <= 0;
-              return (
-                <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
-                  className={`size-option ${selectedSize === size ? "selected" : ""}`}
-                  disabled={outOfStock}
-                  style={{ opacity: outOfStock ? 0.5 : 1 }}
-                >
-                  {size} {outOfStock && "(Sold Out)"}
-                </button>
-              );
-            })}
-          </div>
+          {/* Size Picker - only if product has sizes */}
+          {hasSizes && (
+            <>
+              <div className="product-meta-label">Select Size</div>
+              <div className="size-picker">
+                {sizes.map((size) => {
+                  const outOfStock = (product.stock?.[size] || 0) <= 0;
+                  return (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`size-option ${selectedSize === size ? "selected" : ""}`}
+                      disabled={outOfStock}
+                      style={{ opacity: outOfStock ? 0.5 : 1 }}
+                    >
+                      {size} {outOfStock && "(Sold Out)"}
+                    </button>
+                  );
+                })}
+              </div>
+            </>
+          )}
 
           {/* Add to Cart */}
           <button

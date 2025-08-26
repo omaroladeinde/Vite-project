@@ -14,7 +14,7 @@ const PaystackButton = ({ email, amount, name, onSuccess, disabled, metadata }) 
     }
 
     const handler = window.PaystackPop.setup({
-      key: "pk_test_27ed0741cbea90e217695e515ffbbe5e4bbef71c",
+      key: "pk_live_d368d3e7b01a58171d462782bf0a521020fc65d7",
       email,
       amount,
       currency: "NGN",

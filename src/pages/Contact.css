@@ -1,0 +1,290 @@
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 30px;
+  background-color: #ffffff;
+  color: white;
+}
+
+.contact-form-wrapper {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-top: none;
+}
+
+.contact-title {
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  color: #000000;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 450px;
+}
+
+.contact-input,
+.contact-textarea {
+  padding: 12px 15px;
+  border: 1px solid #000000;
+  background:#ffffff;
+  color: rgb(0, 0, 0);
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.contact-input:focus,
+.contact-textarea:focus {
+  outline: none;
+  border: 1px solid #000000;
+}
+
+.contact-button {
+  padding: 12px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.contact-button:hover {
+  background-color: #000000;
+}
+
+.contact-success {
+  margin-top: 10px;
+  color: #00cc66;
+  font-size: 14px;
+}
+
+/* ===== NAVBAR + SIDEBAR (from shop.css reference) ===== */
+.contact-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: none;
+}
+
+.hamburger {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.contact-logo {
+   font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: rgb(86, 3, 3);
+  font-weight: bold;
+}
+
+.contact-nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.contact-nav-link {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s ease;
+}
+
+.contact-nav-link:hover {
+  opacity: 0.7;
+}
+
+/* ===== MOBILE SIDEBAR ===== */
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 85%;
+  height: 100vh;
+  background-color: white;
+  z-index: 1000;
+  transition: left 0.3s ease;
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+}
+
+.mobile-sidebar.open {
+  left: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 12px;
+}
+
+.signin-link {
+  font-weight: bold;
+  color: black;
+  margin-left: auto;
+  text-decoration: underline;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.sidebar-links {
+  margin-top: 20px;
+  display: block;
+  flex-direction: column;
+}
+
+.sidebar-title {
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.sidebar-link {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 8px 0;
+  font-size: 14px;
+  cursor: pointer;
+  color: black;
+  text-transform: uppercase;
+  display: block; /* This forces each button to take a new line */
+  width: 100%;    /* Optional: makes button stretch full width */
+}
+
+/* Navbar Styling */
+
+.hamburger {
+  font-size: 24px;
+  background: none;
+  border: none;
+  display: none;
+  color: #000000;
+}
+
+.bag-link {
+  font-size: 16px;
+  color: black;
+  text-decoration: none;
+}
+
+.category-filter {
+  display: none;
+}
+
+/* ===== CONTACT FORM ===== */
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 10px;
+  background-color: #ffffff;
+  color: white;
+}
+
+.contact-form-wrapper {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-top: none;
+}
+
+.contact-title {
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  color: #000000;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 450px;
+}
+
+.contact-input,
+.contact-textarea {
+  padding: 12px 15px;
+  border: 1px solid #000000;
+  background:#ffffff;
+  color: rgb(0, 0, 0);
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.contact-input:focus,
+.contact-textarea:focus {
+  outline: none;
+  border: 1px solid #000000;
+}
+
+.contact-button {
+  padding: 12px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.contact-button:hover {
+  background-color: #000000;
+}
+
+.contact-success {
+  margin-top: 10px;
+  color: #00cc66;
+  font-size: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+ .contact-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+  }
+
+.contact-nav-link {
+    display: none;
+}
+
+.bag-link {
+    font-size: 13px;
+    
+  }
+}
+

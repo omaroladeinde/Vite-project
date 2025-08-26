@@ -55,7 +55,7 @@ export default function Cart() {
         <button className="hamburger" onClick={() => setSidebarOpen(true)}>
           <FiMenu />
         </button>
-        <Link to="/hero" className="product-logo">MEZURASHI STUDIOS</Link>
+        <Link to="/" className="product-logo">MEZURASHI STUDIOS</Link>
         <nav className="product-nav">
           <Link to="/shop" className="product-nav-link">SHOP</Link>
           <Link to="/stockist" className="product-nav-link">STOCKIST</Link>
@@ -100,7 +100,7 @@ export default function Cart() {
       <span>{item.quantity}</span>
 
       <span>
-        ₩
+        ₦
         {!isNaN(item.price) && item.price
           ? (item.price * item.quantity).toLocaleString()
           : "0"}
@@ -121,7 +121,7 @@ export default function Cart() {
          <div className="cart-total">
   <div className="total-text">
     <span>Total:</span>
-    <span className="total-amount">{total.toLocaleString()}</span>
+    <span className="total-amount">₦{total.toLocaleString()}</span>
   </div>
   <Link to="/checkout" className="checkout-btn">Proceed to Checkout</Link>
 </div>

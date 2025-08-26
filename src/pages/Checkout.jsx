@@ -1,30 +1,31 @@
-// src/pages/Checkout.jsx
+// src/pages/Checkout.jsx 
 import React, { useState, useContext } from "react";
 import { CartContext } from "src/context/CartContext";
 import PaystackButton from "../components/PaystackButton";
 import { Link, useNavigate } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import "./checkout.css";
-import { products } from "src/data/products";
+import { supabase } from "../supabaseClient"; // ✅ Supabase client
 
 const categories = [
-  "NEW ARRIVAL", "MEMBERSHIP ONLY", "COLLABORATION", "OUTWEAR",
-  "TOP", "BOTTOM", "ACC", "ARCHIVE SALE",
+  "NEW ARRIVAL", "TOP", "BOTTOM", "ACC",
+  "OUTWEAR", "COLLABORATION", "MEMBERSHIP ONLY", "ARCHIVE SALE",
 ];
 
 const shippingRates = {
   International: 15000,
-  "Local (within Lagos)": 3000,
-  "Local (outside Lagos)": 5000,
+  "Local (within Lagos)": 6000,
+  "Local (outside Lagos)": 10000,
 };
 
 export default function Checkout() {
   const navigate = useNavigate();
   const { cartItems, clearCart } = useContext(CartContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const [formData, setFormData] = useState({
-    email: "",
     name: "",
+    email: "",
     address: "",
     phone: "",
     shippingLocation: "",
@@ -37,37 +38,62 @@ export default function Checkout() {
   }, 0);
 
   const shippingCost = shippingRates[formData.shippingLocation] || 0;
-  const totalAmount = (baseTotal + shippingCost) * 100;
+  const totalAmount = (baseTotal + shippingCost) * 100; // Paystack uses kobo
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePaymentSuccess = () => {
-    cartItems.forEach((cartItem) => {
-      const productIndex = products.findIndex((p) => p.id === cartItem.id);
-      if (productIndex !== -1) {
-        const product = products[productIndex];
-        const size = cartItem.selectedSize;
-
-        if (product.stock && product.stock[size]) {
-          product.stock[size] -= cartItem.quantity;
-          if (product.stock[size] <= 0) {
-            product.stock[size] = 0;
-          }
-        }
-
-        const isSoldOut = Object.values(product.stock).every((qty) => qty <= 0);
-        if (isSoldOut) {
-          product.status = "Sold Out";
+  // ✅ Supabase order logging + inventory reduction
+  const handlePaymentSuccess = async () => {
+    try {
+      // 1. Reduce stock for each item
+      for (let item of cartItems) {
+        const { error } = await supabase.rpc("reduce_stock", {
+          product_id: item.id,
+          size: item.selectedSize || null, // ✅ handle per-size or null
+          quantity: item.quantity,
+        });
+        if (error) {
+          console.error("Stock update error:", error);
         }
       }
-    });
 
-    alert("Payment Successful!");
-    clearCart();
-    navigate("/shop");
+      // 2. Save order in Supabase
+      const { error: orderError } = await supabase.from("orders").insert([
+        {
+          buyer_name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          state: formData.state,
+          country: formData.country,
+          items: cartItems.map((item) => ({
+            id: item.id,
+            name: item.name,
+            size: item.selectedSize || "N/A",
+            qty: item.quantity,
+            price: item.price,
+          })),
+          total: baseTotal + shippingCost,
+        },
+      ]);
+
+      if (orderError) {
+        console.error("Order save error:", orderError);
+        alert("Payment was successful, but order was not logged.");
+      } else {
+        alert("✅ Payment Successful & Order Saved!");
+      }
+
+      // 3. Clear cart + redirect
+      clearCart();
+      navigate("/shop");
+    } catch (err) {
+      console.error("Error handling payment success:", err);
+      alert("Something went wrong while processing your order.");
+    }
   };
 
   const isFormComplete = () => {
@@ -129,7 +155,7 @@ export default function Checkout() {
         <button className="hamburger" onClick={() => setSidebarOpen(true)}>
           <FiMenu />
         </button>
-        <Link to="/hero" className="product-logo">MEZURASHI STUDIOS</Link>
+        <Link to="/" className="product-logo">MEZURASHI STUDIOS</Link>
         <nav className="product-nav">
           <Link to="/shop" className="product-nav-link">SHOP</Link>
           <Link to="/stockist" className="product-nav-link">STOCKIST</Link>
@@ -154,13 +180,11 @@ export default function Checkout() {
             required
             className="shipping-select"
           >
-            <option value="" disabled>Select Shipping Location</option>
-            <option value="International">International</option>
+             <option value="">Select Shipping</option> {/* ✅ Placeholder */}
             <option value="Local (within Lagos)">Local (within Lagos)</option>
             <option value="Local (outside Lagos)">Local (outside Lagos)</option>
           </select>
 
-          {/* Country & State if International */}
           {formData.shippingLocation === "International" && (
             <>
               <input
@@ -182,7 +206,6 @@ export default function Checkout() {
             </>
           )}
 
-          {/* State if outside Lagos */}
           {formData.shippingLocation === "Local (outside Lagos)" && (
             <input
               type="text"

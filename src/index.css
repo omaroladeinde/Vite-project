@@ -445,8 +445,6 @@ s
   display: none;
 }
 
-
-
 }
 
 .collection-card .product-name {
@@ -458,6 +456,25 @@ s
 .collection-card img {
   object-fit: cover;
   height: 100%;
+}
+
+.product-card.soldout {
+  pointer-events: none; /* disable clicking */
+  opacity: 0.5;         /* faded */
+  position: relative;
+}
+
+.soldout-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 3px;
 }
 
 
