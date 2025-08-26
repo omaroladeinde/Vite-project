@@ -12,11 +12,6 @@ dist
 dist-ssr
 *.local
 
-node_modules/
-dist/
-.vite/
-
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -27,3 +22,5 @@ dist/
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
