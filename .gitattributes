@@ -1,0 +1,7 @@
+# Ensure line endings are consistent
+* text=auto
+
+# Do not treat these files as text
+*.png binary
+*.jpg binary
+*.zip binary
