@@ -5,6 +5,7 @@ import path from 'path';
 
 
 export default defineConfig({
+  base: "/", // "/" for root, "/subfolder/" if hosted in a subpath
   plugins: [react()],
   resolve: {
     alias: {
