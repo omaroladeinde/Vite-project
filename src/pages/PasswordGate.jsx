@@ -36,7 +36,9 @@ const PasswordGate = () => {
   return (
     <div className="pw-gate-container">
       <div className="pw-form-box">
-        <h1 className="pw-logo">MFG</h1>
+        <h1 className="pw-logo">
+<img src="images/logo png.png" alt="PW Logo"></img>
+        </h1>
         <form className="pw-form" onSubmit={handleSubmit}>
           <input
             type="email"

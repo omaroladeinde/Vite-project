@@ -26,14 +26,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/PasswordGate" element={<PasswordGate />} />
+        <Route path="/" element={<PasswordGate />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/collection" element={<CollectionPage />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/notify" element={<Notify />} />
-        <Route path="/" element={<HeroSplash />} />
+        <Route path="/HeroSplash" element={<HeroSplash />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/stockist" element={<Stocklist />} />
       </Routes>
