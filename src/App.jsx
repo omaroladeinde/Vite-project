@@ -27,7 +27,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<PasswordGate />} />
-        <Route path="/shop" element={<Shop />} />
+        <Route path="/Shop" element={<Shop />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/collection" element={<CollectionPage />} />

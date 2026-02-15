@@ -228,6 +228,27 @@
   100% { opacity: 0; transform: translate(-50%, -20px); }
 }
 
+.color-picker {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.color-option {
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.color-option.selected {
+  border: 1px solid white;
+  background: white;
+  color: black;
+}
+
 
 /* Sidebar link list vertical */
 .sidebar-link-list {

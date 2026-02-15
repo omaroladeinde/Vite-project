@@ -49,7 +49,7 @@ export default function Stocklist() {
           <FiMenu />
         </button>
 
-        <Link to="/" className="stockist-logo">MEZURASHI STUDIOS</Link>
+        <Link to="/shop" className="stockist-logo">MEZURASHI STUDIOS</Link>
 
         <nav className="stockist-nav">
           <Link to="/shop" className="stockist-nav-link">SHOP</Link>

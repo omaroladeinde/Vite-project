@@ -155,7 +155,7 @@ export default function Checkout() {
         <button className="hamburger" onClick={() => setSidebarOpen(true)}>
           <FiMenu />
         </button>
-        <Link to="/" className="product-logo">MEZURASHI STUDIOS</Link>
+        <Link to="/shop" className="product-logo">MEZURASHI STUDIOS</Link>
         <nav className="product-nav">
           <Link to="/shop" className="product-nav-link">SHOP</Link>
           <Link to="/stockist" className="product-nav-link">STOCKIST</Link>

@@ -55,7 +55,7 @@ export default function Cart() {
         <button className="hamburger" onClick={() => setSidebarOpen(true)}>
           <FiMenu />
         </button>
-        <Link to="/" className="product-logo">MEZURASHI STUDIOS</Link>
+        <Link to="/shop" className="product-logo">MEZURASHI STUDIOS</Link>
         <nav className="product-nav">
           <Link to="/shop" className="product-nav-link">SHOP</Link>
           <Link to="/stockist" className="product-nav-link">STOCKIST</Link>
@@ -92,7 +92,7 @@ export default function Cart() {
       <div className="item-info">
         <img src={item.image} alt={item.name} />
         <span>
-          {item.name}
+          <div className="item-info-item-name"> {item.name} </div>
           {item.selectedSize && ` (${item.selectedSize})`}
         </span>
       </div>

@@ -30,7 +30,7 @@ const PasswordGate = () => {
       console.error("Email logging failed:", err);
     }
 
-    navigate("/hero");
+    navigate("/shop");
   };
 
   return (

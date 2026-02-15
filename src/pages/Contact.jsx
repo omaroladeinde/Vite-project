@@ -81,7 +81,7 @@ const Contact = () => {
           <FiMenu />
         </button>
 
-        <Link to="/" className="contact-logo">MEZURASHI STUDIOS</Link>
+        <Link to="/shop" className="contact-logo">MEZURASHI STUDIOS</Link>
 
         <nav className="contact-nav">
           <Link to="/shop" className="contact-nav-link">SHOP</Link>
